@@ -28,12 +28,20 @@ class PluginManager:
 
     """
 
-    def __init__(self, plugin_info_ext="plugin"):
-
+    def __init__(self, plugin_info_ext="plugin", plugin_locator=None):
+        """
+        Parameters
+        ----------
+        plugin_info_ext : str
+            Extension for plugin info files.
+        plugin_locator : object, optional
+            Plugin locator instance (currently unused, accepted for compatibility).
+        """
         self.plugin_ext = plugin_info_ext
         self.plugin_locations = []
         self.categories_filter = {}
         self.available_plugins = []
+        self.plugin_locator = plugin_locator  # Not used yet
 
     def setPluginPlaces(self, plugin_locations):
         """
