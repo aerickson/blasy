@@ -176,6 +176,20 @@ class PluginManager:
 
         return plugins_in_category
 
+    def getPluginByName(self, name, category="Default"):
+        """
+        Get the plugin corresponding to a given category and name.
+
+        :param name: Name of the plugin
+        :param category: Category name (default "Default")
+        :return: Plugin instance or None
+        """
+        plugins = self.getPluginsOfCategory(category)
+        for plugin in plugins:
+            if getattr(plugin, "name", None) == name:
+                return plugin
+        return None
+
     def getAllPlugins(self):
         """
         Return the list of all plugins (belonging to all categories).
