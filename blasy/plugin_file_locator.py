@@ -60,3 +60,52 @@ class PluginFileLocator:
             for key in parser["Documentation"]:
                 info[key.lower()] = parser["Documentation"][key]
         return info
+
+class PluginFileAnalyzerWithInfoFile:
+    """
+    Analyzer for plugins described by a textual description file (INI format).
+    """
+
+    def __init__(self, extensions="plugin"):
+        # Accept a string or tuple of extensions
+        if isinstance(extensions, str):
+            extensions = (extensions,)
+        self.extensions = tuple(ext.lstrip('.') for ext in extensions)
+
+    def is_valid_plugin(self, filename):
+        """
+        Check if the file has a valid plugin info file extension.
+        """
+        return any(filename.endswith(f".{ext}") for ext in self.extensions)
+
+    def get_infos_dict_from_plugin(self, dirpath, filename):
+        """
+        Extract plugin info from the info file.
+        Returns a dict with at least 'name' and 'module'.
+        """
+        info_file_path = os.path.join(dirpath, filename)
+        parser = configparser.ConfigParser()
+        try:
+            parser.read(info_file_path)
+        except Exception:
+            return None
+
+        if not parser.has_section("Core"):
+            return None
+
+        info = {}
+        for key in parser["Core"]:
+            info[key.lower()] = parser["Core"][key]
+
+        # Optionally add documentation fields
+        if parser.has_section("Documentation"):
+            for key in parser["Documentation"]:
+                info[key.lower()] = parser["Documentation"][key]
+
+        # Ensure required fields
+        if "name" not in info or "module" not in info:
+            return None
+
+        # Add the path to the module
+        info["path"] = os.path.join(dirpath, info["module"])
+        return info
