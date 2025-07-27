@@ -96,3 +96,5 @@ celerybeat-schedule
 *.arj
 *.bz2
 
+# aje
+yapsy
