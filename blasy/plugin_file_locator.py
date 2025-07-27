@@ -109,6 +109,3 @@ class PluginFileAnalyzerWithInfoFile:
         # Add the path to the module
         info["path"] = os.path.join(dirpath, info["module"])
         return info
-
-# For Yapsy compatibility (optional, not recommended for new code)
-PluginFileLocator = PluginFileLocator
