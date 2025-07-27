@@ -176,6 +176,15 @@ class PluginManager:
 
         return plugins_in_category
 
+    def getAllPlugins(self):
+        """
+        Return the list of all plugins (belonging to all categories).
+        """
+        all_plugins = set()
+        for plugin in self.available_plugins:
+            all_plugins.add(plugin)
+        return list(all_plugins)
+
 
 class Plugin:
     """ Class to hold plugins before they are initialized
