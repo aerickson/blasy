@@ -29,19 +29,13 @@ class PluginManager:
     """
 
     def __init__(self, plugin_info_ext="plugin", plugin_locator=None):
-        """
-        Parameters
-        ----------
-        plugin_info_ext : str
-            Extension for plugin info files.
-        plugin_locator : object, optional
-            Plugin locator instance (currently unused, accepted for compatibility).
-        """
         self.plugin_ext = plugin_info_ext
         self.plugin_locations = []
         self.categories_filter = {}
         self.available_plugins = []
         self.plugin_locator = plugin_locator  # Not used yet
+        # Always ensure "Default" category exists
+        self.setCategoriesFilter({})
 
     def setPluginPlaces(self, plugin_locations):
         """
@@ -55,12 +49,13 @@ class PluginManager:
 
     def setCategoriesFilter(self, categories_filter):
         """
-
-        :return: 
+        Set the categories of plugins to be looked for as well as the
+        way to recognise them.
         """
-
-        # TODO: validate?
-
+        # Always ensure "Default" is present
+        if "Default" not in categories_filter:
+            categories_filter = dict(categories_filter)
+            categories_filter["Default"] = IPlugin
         self.categories_filter = categories_filter
 
     def collectPlugins(self):
