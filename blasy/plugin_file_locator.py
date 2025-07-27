@@ -5,12 +5,18 @@ from pathlib import Path
 class PluginFileLocator:
     """
     Locate plugins in the filesystem by looking for .plugin files and extracting info.
+
+    Parameters
+    ----------
+    analyzers : list, optional
+        List of plugin analyzers. Currently not used, but accepted for future compatibility.
     """
 
-    def __init__(self, plugin_info_ext="plugin"):
+    def __init__(self, plugin_info_ext="plugin", analyzers=None):
         self.plugin_info_ext = plugin_info_ext
         self.plugin_places = []
         self.recursive = True
+        self.analyzers = analyzers  # Not used yet
 
     def setPluginPlaces(self, directories_list):
         if isinstance(directories_list, str):
